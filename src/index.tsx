@@ -1,12 +1,12 @@
 import * as React from 'react';
 import Placeholder from './components/Placeholder';
-// import './styles.css';
+import './styles.css';
 
 import { BiMicrophoneOff } from 'react-icons/bi';
 import { IoHandRightSharp } from 'react-icons/io5';
 import { BsThreeDotsVertical } from 'react-icons/bs';
+import Pin from './components/Pin';
 import PinIcon from 'mdi-react/PinIcon';
-import PinOffIcon from 'mdi-react/PinOffIcon';
 
 export type TVideoTileProps = {
   /**
@@ -40,7 +40,8 @@ export type TVideoTileProps = {
    */
   isPinned: boolean;
   /**
-   * Full Name of the user. Such as Elon Musk. Required field because it is shown at bottom on video tile and when no placeholder is passed initals are extracted from username.
+   * Full Name of the user. Such as Elon Musk.
+   * Required field because it is shown at bottom on video tile and when no placeholder is passed initals are extracted from username.
    */
   username: string;
   /**
@@ -50,7 +51,8 @@ export type TVideoTileProps = {
   /**
    * Placeholder is shown when the user has stopped sharing their camera.
    * A string can be passed which needs to URL to an image because if string is passed it is attached to the <img> tag.
-   * A React.ReactNode can be passed which means a custom React Component. So whenever user has paused sharing custom component will be rendered and shown.
+   * A React.ReactNode can be passed which means a custom React Component.
+   * So whenever user has paused sharing custom component will be rendered and shown.
    */
   placeholder?: string | React.ReactNode;
   /**
@@ -60,7 +62,8 @@ export type TVideoTileProps = {
   width?: number | string;
   /**
    * Height of the video tile. It could be absolute number such as 200 or a string "200px".
-   * All valid CSS width can be passed. If no width is passed then it takes as much width available
+   * All valid CSS width can be passed.
+   * If no width is passed then it takes as much width available
    */
   height?: number | string;
   /**
@@ -75,7 +78,7 @@ export type TVideoTileProps = {
    * Now whenever a click action is performed outside the popup then popup automatically closes but within the popup that doesn't happen.
    *
    * So we use render props pattern where a function is passed as an argument.
-   * So whenever you would like to close the popup then just execute passed function.
+   * So whenever you would like to close the popup then just execute close function.
    */
   Popup?: (close: () => void) => React.ReactNode;
   /**
@@ -129,6 +132,13 @@ export const VideoTile = (props: TVideoTileProps) => {
       {props.isPaused && (
         <Placeholder content={props.placeholder} username={props.username} />
       )}
+      {!isPopupVisible && (
+        <Pin
+          isPinned={props.isPinned}
+          onPin={props.onPin}
+          onUnpin={props.onUnpin}
+        />
+      )}
       <div className="bottom-bar">
         <div className="bottom-bar__left">
           {props.isMuted && (
@@ -145,26 +155,28 @@ export const VideoTile = (props: TVideoTileProps) => {
               color="yellow"
             />
           )}
-          {props.isPinned ? (
-            <PinOffIcon size="18px" color="lime" onClick={props.onUnpin} />
-          ) : (
-            <PinIcon size="18px" color="lime" onClick={props.onPin} />
+          {props.isPinned && (
+            <PinIcon size="18px" color="lime" onClick={props.onUnpin} />
           )}
           <span>{props.username}</span>
         </div>
 
-        {props.Popup && (
-          <div className="bottom-bar__right" ref={popupRef}>
-            <span onClick={() => setPopupVisible(val => !val)}>
-              <BsThreeDotsVertical size="18px" color="white" />
-            </span>
-            {isPopupVisible && (
-              <div className="popup">
-                {props.Popup(() => setPopupVisible(false))}
-              </div>
-            )}
-          </div>
-        )}
+        <div className="bottom-bar__right" ref={popupRef}>
+          {props.Popup && (
+            <React.Fragment>
+              <BsThreeDotsVertical
+                size="18px"
+                color="white"
+                onClick={() => setPopupVisible(val => !val)}
+              />
+              {isPopupVisible && (
+                <div className="popup">
+                  {props.Popup(() => setPopupVisible(false))}
+                </div>
+              )}
+            </React.Fragment>
+          )}
+        </div>
       </div>
     </div>
   );

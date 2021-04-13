@@ -76,6 +76,34 @@
   height: 5px;
 }
 
+.video-tile .pin-wrapper {
+  opacity: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  height: 100%;
+  position: absolute;
+  top: 0px;
+  left: 0px;
+  transition: all 0.3s ease;
+  z-index: 101;
+}
+
+.video-tile:hover .pin-wrapper {
+  opacity: 1;
+  display: flex;
+}
+
+.video-tile .pin-wrapper .pin {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: rgba(0, 0, 0, 0.7);
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+}
 /* Placeholder */
 
 .paused {
