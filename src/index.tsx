@@ -1,7 +1,11 @@
+//Import Modules
 import * as React from 'react';
-import Placeholder from './components/Placeholder';
+
+//Import Styles
 import './styles.css';
 
+//Import Components
+import Placeholder from './components/Placeholder';
 import { BiMicrophoneOff } from 'react-icons/bi';
 import { IoHandRightSharp } from 'react-icons/io5';
 import { BsThreeDotsVertical } from 'react-icons/bs';
@@ -84,19 +88,19 @@ export type TVideoTileProps = {
   /**
    * Function to be executed when user pin's the video tile.
    */
-  onPin: () => unknown;
+  onPin: () => void;
   /**
    * Function to be executed when user unpin's the video tile.
    */
-  onUnpin: () => unknown;
+  onUnpin: () => void;
   /**
    * Function to be executed when hand is clicked.
    */
-  onHandClick?: () => unknown;
+  onHandClick?: () => void;
   /**
    * Function to be executed when microphone is clicked.
    */
-  onMicrophoneClick?: () => unknown;
+  onMicrophoneClick?: () => void;
 };
 
 export const VideoTile = (props: TVideoTileProps) => {
@@ -104,6 +108,7 @@ export const VideoTile = (props: TVideoTileProps) => {
   const popupRef = React.useRef<HTMLDivElement>(null);
 
   React.useEffect(() => {
+    //To automatically close popup when clicked outside.
     document.addEventListener('click', event => {
       if (popupRef.current?.contains(event.target as HTMLElement)) {
         return;

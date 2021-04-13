@@ -1,3 +1,4 @@
+//Import Modules
 import * as React from 'react';
 
 type TPlaceHolder = {
@@ -5,6 +6,7 @@ type TPlaceHolder = {
   username: string;
 };
 
+//Placeholder is shown when video is paused.
 const Placeholder = (props: TPlaceHolder) => {
   return (
     <div className="paused">
@@ -13,7 +15,7 @@ const Placeholder = (props: TPlaceHolder) => {
       ) : (
         <div className="profile-wrapper">
           <div className="dummy">
-            {typeof props.content === 'string' && props.content.length > 10 ? (
+            {typeof props.content === 'string' && props.content.length > 2 ? (
               <img src={props.content} alt={props.username} loading="lazy" />
             ) : (
               <div className="avatar">{props.username[0]}</div>
